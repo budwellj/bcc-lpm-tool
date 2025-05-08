@@ -110,7 +110,7 @@ else:
         mode_to_xdp_prog = {
             'r': 'xdp_drop.c',     # Drop mode program
             'p': 'xdp_pass.c',     # Pass mode program
-            'e': 'xdp_redirect.c'  # Redirect mode program
+            'e': 'xdp_f1_redirect.c'  # Redirect mode program
         }
 
         # Select the appropriate program based on the mode
@@ -124,7 +124,7 @@ else:
         print(f"XDP program '{xdp_program}' attached to {interface} with mode '{action_mode}'.")
 
         # Keep reference to the map for later access (e.g., for -m mode)
-        lpm_trie_map = bpf.get_table("lpm_trie_map")
+        lpm_trie_map = bpf.get_table("lpm_trie_map_f1")
 
         # Load rules from file if provided
         if file_path:
@@ -178,7 +178,7 @@ else:
         try:
             # Attach to the existing BPF object without recompiling
             bpf = BPF(text="")
-            lpm_trie_map = bpf.get_table("lpm_trie_map")
+            lpm_trie_map = bpf.get_table("lpm_trie_map_f1")
             print("Manual dump of LPM trie contents:")
             dump_lpm_trie(lpm_trie_map)
         except Exception as e:
